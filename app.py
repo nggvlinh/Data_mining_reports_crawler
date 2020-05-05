@@ -5,5 +5,5 @@ app = Flask(__name__)
 def home ():
     return '<h1> Deploy to Heroku  </h1>'
 
-if __name__() == '__main__' :
+if __name__ == '__main__' :
     app.run()
