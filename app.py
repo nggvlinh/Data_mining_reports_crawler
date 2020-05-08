@@ -1,13 +1,17 @@
 from flask import Flask
 from bs4 import BeautifulSoup
 import requests
+from django.http import HttpResponse
 
 app = Flask(__name__)
 @app.route('/')
-def home ():
+def index(request):
+    r = requests.get('http://httpbin.org/status/418')
+    print(r.text)
+    return HttpResponse('<pre>' + r.text + '</pre>')
 
-    html = requests.get(
-        "https://tuyensinh.ctu.edu.vn/chuong-trinh-dai-tra/841-danh-muc-nganh-va-chi-tieu-tuyen-sinh-dhcq.html").text
+def craw ():
+    html = requests.get("https://tuyensinh.ctu.edu.vn/chuong-trinh-dai-tra/841-danh-muc-nganh-va-chi-tieu-tuyen-sinh-dhcq.html").text
 
     soup = BeautifulSoup(html, 'html5lib')
 
@@ -34,7 +38,6 @@ def home ():
     TT19_CN,
     TT18_CN,
     TT17_CN)
-    return '<h1> Deploy to Heroku  </h1>'
 
 if __name__ == '__main__' :
     app.run()
