@@ -5,7 +5,7 @@ import  requests
 app = Flask(__name__)
 app.secret_key = 'replace later'
 
-@app.route('/', methods=['GET','POST'])
+@app.route('/')
 def index():
     html = requests.get("https://tuyensinh.ctu.edu.vn/chuong-trinh-dai-tra/841-danh-muc-nganh-va-chi-tieu-tuyen-sinh-dhcq.html").text
     soup = BeautifulSoup(html, 'html5lib')
