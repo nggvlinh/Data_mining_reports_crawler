@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 from flask import Flask ,render_template
 import  requests as rq
 import psycopg2
+import pgsql
 
 
 app = Flask(__name__, template_folder='template')
