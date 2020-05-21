@@ -1,10 +1,10 @@
 from bs4 import BeautifulSoup
-from flask import Flask
+from flask import Flask ,render_template
 import  requests as rq
 import psycopg2
 
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='template')
 app.secret_key = 'replace later'
 
 @app.route('/')
@@ -12,7 +12,7 @@ def index():
     #print(crawler())
     #print(crawler1())
     connect()
-    return '<h1>successfully</h1>'
+    return  render_template('index.php')
 
 def spacee(sp):
     return  sp.strip()
@@ -1318,10 +1318,11 @@ def connect() :
                  TT2019           TEXT NOT NULL,
                  TT2018           TEXT NOT NULL,
                  TT2017           TEXT NOT NULL); '''
-        create_table_query = '''CREATE TABLE dmnganh1(
-                         Gt          TEXT PRIMARY KEY NOT NULL,
-                         Nlv         TEXT NOT NULL,
-                         Vtlv        TEXT NOT NULL); '''
+        create_table_query = '''CREATE TABLE dmnganh2(
+                         tdn0          TEXT PRIMARY KEY NOT NULL,
+                         tdn1          TEXT NOT NULL,
+                         tdn2          TEXT NOT NULL,
+                         tdn3          TEXT NOT NULL ); '''
 
         #cursor.execute(create_table_query)
         #print("creeate success")
@@ -1335,13 +1336,10 @@ def connect() :
         #cursor.execute("INSERT INTO dmnganh1 (Gt,Nlv,Vtlv) VALUES(%s, %s, %s)", (crawler1()))
         #print("insert successfully")
 
-        #cursor.execute("INSERT INTO dmnganh1 (Gt,Nlv,Vtlv) VALUES"
-        #               "('Ngành Quản lý thủy sản đào tạo kỹ sư có kiến thức về kỹ thuật phát triển nuôi trồng thủy sản; khai thác và quản lý nguồn lợi thủy sản; sản xuất, kinh doanh và dịch vụ thủy sản nhằm phát triển ngành thủy sản một cách hiệu quả và bền vững. Đặc biệt nhằm giúp cho người học khả năng tổ chức trang trại sản xuất, vận hành doanh nghiệp thủy sản một cách hiệu quả kinh tế. ',"
-        #              "'Kỹ sư thủy sản tại các cơ quan quản lý ngành thủy sản',"
-        #               "'Các ban ngành trực thuộc các Sở Nông nghiệp và Phát triển nông thôn; ')")
-        #print("insert successfully")
 
-        cursor.execute("SELECT * FROM dmnganh1;")
+        print("insert successfully")
+
+        cursor.execute("SELECT * FROM dmnganh;")
         records = cursor.fetchall()
         print(records)
 
