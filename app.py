@@ -1,8 +1,8 @@
 from bs4 import BeautifulSoup
-from flask import Flask ,render_template
+from flask import Flask ,render_template ,escape, request
 import  requests as rq
 import psycopg2
-import pgsql
+
 
 
 app = Flask(__name__, template_folder='template')
@@ -13,7 +13,7 @@ def index():
     #print(crawler())
     #print(crawler1())
     connect()
-    return  render_template('index.php')
+    return 'successfully'
 
 def spacee(sp):
     return  sp.strip()
@@ -1293,13 +1293,14 @@ def crawler ():
     return spacee(dele(Ma_HA7)),spacee(dele(Ten_HA7)),spacee(dele(ToHop_HA7)),spacee(dele(ChiTieu_HA7)), spacee(dele(TT19_HA7))\
           ,spacee(dele(TT18_HA7)),spacee(dele(TT17_HA7))
 
+
 def connect() :
     try:
-        connection = psycopg2.connect(user="halepmhfxnkrni",
-                                      password="48e8d7e4ed72113de1dad744a6a3be7380d7602df430187473ed6decae2d2d6f",
-                                      host="ec2-35-169-254-43.compute-1.amazonaws.com",
+        connection = psycopg2.connect(user="xdjbqgulyhzhck",
+                                      password="d8aa4a5f3335d5489970c10428d5adbcd7c7ad5d215ec54b8d0fd8afdaf9b763",
+                                      host="ec2-52-72-65-76.compute-1.amazonaws.com",
                                       port="5432",
-                                      database="daerabpc01h014")
+                                      database="db3kr1a2ptuutr")
 
         cursor = connection.cursor()
         # Print PostgreSQL Connection properties
@@ -1319,7 +1320,7 @@ def connect() :
                  TT2019           TEXT NOT NULL,
                  TT2018           TEXT NOT NULL,
                  TT2017           TEXT NOT NULL); '''
-        create_table_query = '''CREATE TABLE dmnganh2(
+        create_table_query = '''CREATE TABLE dmnganhdn(
                          tdn0          TEXT PRIMARY KEY NOT NULL,
                          tdn1          TEXT NOT NULL,
                          tdn2          TEXT NOT NULL,
@@ -1333,16 +1334,22 @@ def connect() :
         #cursor.execute("ALTER TABLE dmnganh ADD COLUMN  Nlv TEXT;")
         #cursor.execute("ALTER TABLE dmnganh ADD COLUMN  Vtlv TEXT;")
         #print("add success")
+        #cursor.execute()
 
-        #cursor.execute("INSERT INTO dmnganh1 (Gt,Nlv,Vtlv) VALUES(%s, %s, %s)", (crawler1()))
-        #print("insert successfully")
+        print("bảng 1")
+        cursor.execute("SELECT * FROM dmnganh1;")
+        records1 = cursor.fetchall()
+        print(records1)
 
+        print("bảng 2")
+        cursor.execute("SELECT * FROM dmnganh2;")
+        records2 = cursor.fetchall()
+        print(records2)
 
-        print("insert successfully")
-
-        cursor.execute("SELECT * FROM dmnganh;")
-        records = cursor.fetchall()
-        print(records)
+        #print("bảng 3")
+        #cursor.execute("SELECT * FROM dmnganhdn;")
+        #records = cursor.fetchall()
+        #print(records)
 
 
         #cursor.execute("SELECT Tennganh FROM dmnganh;")
@@ -1361,6 +1368,7 @@ def connect() :
             cursor.close()
             connection.close()
             print("PostgreSQL connection is closed")
+
 
 
 if __name__ == '__main__' :
