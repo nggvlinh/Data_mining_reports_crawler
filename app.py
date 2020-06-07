@@ -1,8 +1,7 @@
 from bs4 import BeautifulSoup
-from flask import Flask ,render_template ,escape, request
+from flask import Flask
 import  requests as rq
 import psycopg2
-
 
 
 app = Flask(__name__, template_folder='template')
@@ -10,9 +9,11 @@ app.secret_key = 'replace later'
 
 @app.route('/')
 def index():
-    #print(crawler())
+    print(crawler())
     #print(crawler1())
     connect()
+    #print(demo())
+
     return 'successfully'
 
 def spacee(sp):
@@ -600,9 +601,9 @@ def crawler1():
     NLV3 = new_feed[21].text
     NLV4 = new_feed[22].text
     s65 = NLV1 +NLV +NLV2+NLV3
-    return spacee(dele(s63)) , spacee(dele(s64)) , spacee(dele(s65))
+    return s , s1 , s3
 def crawler ():
-    html = requests.get("https://tuyensinh.ctu.edu.vn/chuong-trinh-dai-tra/841-danh-muc-nganh-va-chi-tieu-tuyen-sinh-dhcq.html").text
+    html = rq.get("https://tuyensinh.ctu.edu.vn/chuong-trinh-dai-tra/841-danh-muc-nganh-va-chi-tieu-tuyen-sinh-dhcq.html").text
     soup = BeautifulSoup(html, "lxml")
 
     new_feed = soup.find('section', class_='article-content clearfix').find_all('a')
@@ -1290,9 +1291,15 @@ def crawler ():
     TT19_HA7 = divs_DL[592].text
     TT18_HA7 = divs_DL[593].text
     TT17_HA7 = divs_DL[594].text
-    return spacee(dele(Ma_HA7)),spacee(dele(Ten_HA7)),spacee(dele(ToHop_HA7)),spacee(dele(ChiTieu_HA7)), spacee(dele(TT19_HA7))\
-          ,spacee(dele(TT18_HA7)),spacee(dele(TT17_HA7))
+    return Ma_HA7,Ten_HA7,ToHop_HA7,ChiTieu_HA7, TT19_HA7,TT18_HA7,TT17_HA7
 
+def demo():
+    link11 = "https://tuyensinh.ctu.edu.vn/chuong-trinh-dai-tra/841-danh-muc-nganh-va-chi-tieu-tuyen-sinh-dhcq.html/gioi-thieu-nganh/551-cong-nghe-ky-thuat-hoa-hoc"
+    linkchu = "https://tuyensinh.ctu.edu.vn"
+    html = rq.get(link11).text
+    soup = BeautifulSoup(html)
+
+    return linkchu + soup.source['src']
 
 def connect() :
     try:
@@ -1328,33 +1335,20 @@ def connect() :
 
         #cursor.execute(create_table_query)
         #print("creeate success")
-        #cursor.execute("DROP TABLE dmnganh;")
-        #print("delete successfully")
-        #cursor.execute("ALTER TABLE dmnganh ADD COLUMN  Gt TEXT;")
-        #cursor.execute("ALTER TABLE dmnganh ADD COLUMN  Nlv TEXT;")
-        #cursor.execute("ALTER TABLE dmnganh ADD COLUMN  Vtlv TEXT;")
-        #print("add success")
-        #cursor.execute()
 
-        print("bảng 1")
-        cursor.execute("SELECT * FROM dmnganh1;")
+        print("bảng danh mục ngành")
+        cursor.execute("SELECT * FROM dmnganh;")
         records1 = cursor.fetchall()
         print(records1)
 
         print("bảng 2")
-        cursor.execute("SELECT * FROM dmnganh2;")
+        cursor.execute("SELECT * FROM dmnganh1;")
         records2 = cursor.fetchall()
         print(records2)
 
-        #print("bảng 3")
-        #cursor.execute("SELECT * FROM dmnganhdn;")
-        #records = cursor.fetchall()
-        #print(records)
-
-
-        #cursor.execute("SELECT Tennganh FROM dmnganh;")
+        #cursor.execute("SELECT tdn3 FROM nganh;")
         #re = cursor.fetchall()
-        #print(re[1])
+        #print(re)
         connection.commit()
         #print("Table created successfully in PostgreSQL ")
 
