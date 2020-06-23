@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from bs4 import BeautifulSoup
 from flask import Flask
 import  requests as rq
@@ -9,20 +10,23 @@ app.secret_key = 'replace later'
 
 @app.route('/')
 def index():
-    print(crawler())
-    #print(crawler1())
+    #print(crawler_chitiet())
+    #print(crawler_tennganh())
     connect()
     #print(demo())
 
     return 'successfully'
 
+# xoa khoang trang
 def spacee(sp):
     return  sp.strip()
 
+# xoa dau -
 def dele(de):
   return de.replace('-','')
 
-def crawler1():
+# cao thong tin co ban nganh
+def crawler_tennganh ():
     html = rq.get("https://tuyensinh.ctu.edu.vn/chuong-trinh-dai-tra/841-danh-muc-nganh-va-chi-tieu-tuyen-sinh-dhcq.html/gioi-thieu-nganh/551-cong-nghe-ky-thuat-hoa-hoc").text
     soup = BeautifulSoup(html, 'html5lib')
     new_feed = soup.find('section', class_='article-content clearfix').find_all('p')
@@ -602,7 +606,8 @@ def crawler1():
     NLV4 = new_feed[22].text
     s65 = NLV1 +NLV +NLV2+NLV3
     return s , s1 , s3
-def crawler ():
+# cao nganh chi tiet
+def crawler_chitiet ():
     html = rq.get("https://tuyensinh.ctu.edu.vn/chuong-trinh-dai-tra/841-danh-muc-nganh-va-chi-tieu-tuyen-sinh-dhcq.html").text
     soup = BeautifulSoup(html, "lxml")
 
@@ -1293,6 +1298,7 @@ def crawler ():
     TT17_HA7 = divs_DL[594].text
     return Ma_HA7,Ten_HA7,ToHop_HA7,ChiTieu_HA7, TT19_HA7,TT18_HA7,TT17_HA7
 
+# demo lay link video
 def demo():
     link11 = "https://tuyensinh.ctu.edu.vn/chuong-trinh-dai-tra/841-danh-muc-nganh-va-chi-tieu-tuyen-sinh-dhcq.html/gioi-thieu-nganh/551-cong-nghe-ky-thuat-hoa-hoc"
     linkchu = "https://tuyensinh.ctu.edu.vn"
@@ -1301,6 +1307,7 @@ def demo():
 
     return linkchu + soup.source['src']
 
+# ket noi heroku
 def connect() :
     try:
         connection = psycopg2.connect(user="xdjbqgulyhzhck",
@@ -1327,11 +1334,6 @@ def connect() :
                  TT2019           TEXT NOT NULL,
                  TT2018           TEXT NOT NULL,
                  TT2017           TEXT NOT NULL); '''
-        create_table_query = '''CREATE TABLE dmnganhdn(
-                         tdn0          TEXT PRIMARY KEY NOT NULL,
-                         tdn1          TEXT NOT NULL,
-                         tdn2          TEXT NOT NULL,
-                         tdn3          TEXT NOT NULL ); '''
 
         #cursor.execute(create_table_query)
         #print("creeate success")
@@ -1341,16 +1343,18 @@ def connect() :
         records1 = cursor.fetchall()
         print(records1)
 
-        print("bảng 2")
-        cursor.execute("SELECT * FROM dmnganh1;")
+        print("bảng chi tiet nganh")
+        cursor.execute("SELECT * FROM chitietnganh;")
         records2 = cursor.fetchall()
         print(records2)
 
-        #cursor.execute("SELECT tdn3 FROM nganh;")
-        #re = cursor.fetchall()
-        #print(re)
+
+        #cursor.execute("ALTER TABLE dmnganh1 RENAME TO chitietnganh;")
+        #print("success")
+
         connection.commit()
         #print("Table created successfully in PostgreSQL ")
+
 
 
     except (Exception, psycopg2.Error) as error:
